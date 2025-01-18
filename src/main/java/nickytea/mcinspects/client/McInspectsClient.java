@@ -1,6 +1,7 @@
 package nickytea.mcinspects.client;
 
 import net.fabricmc.api.ClientModInitializer;
+import nickytea.mcinspects.client.utils.ItemInspectRender;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.util.InputUtil;
