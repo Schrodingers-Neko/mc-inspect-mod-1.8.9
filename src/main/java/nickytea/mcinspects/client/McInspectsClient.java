@@ -12,7 +12,10 @@ import org.lwjgl.glfw.GLFW;
 
 public class McInspectsClient implements ClientModInitializer {
 
-    static KeyBinding inspectBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("keys.mcinspects.inspectitem", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "keys.category.mcinspects"));
+    static KeyBinding inspectBinding = KeyBindingHelper.registerKeyBinding(
+            new KeyBinding("keys.mcinspects.inspectitem",
+                    InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R,
+                    "keys.category.mcinspects"));
 
 
     public static boolean isInspecting() {
