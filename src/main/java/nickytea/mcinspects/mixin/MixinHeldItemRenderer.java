@@ -22,9 +22,12 @@ public abstract class MixinHeldItemRenderer {
     private MinecraftClient client;
 
     @Inject(method = "renderItem", at = @At("HEAD"), cancellable = true)
-    public void renderItemReplacement(LivingEntity entity, ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
+    public void renderItemReplacement(LivingEntity entity, ItemStack stack, ModelTransformationMode renderMode,
+                                      boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+                                      int light, CallbackInfo ci) {
+
         if (McInspectsClient.isInspecting()) {
-            ItemInspectRender.swordBlockingFirstPerson(matrices);
+            ItemInspectRender.inspectHeldItem(matrices);
         }
     }
 }
