@@ -12,14 +12,41 @@ import org.lwjgl.glfw.GLFW;
 
 public class McInspectsClient implements ClientModInitializer {
 
-    static KeyBinding inspectBinding = KeyBindingHelper.registerKeyBinding(
+    private static final KeyBinding inspectBinding = KeyBindingHelper.registerKeyBinding(
             new KeyBinding("keys.mcinspects.inspectitem",
                     InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R,
                     "keys.category.mcinspects"));
 
+    private static float inspectProgress = 0.0f;
+    private static boolean isInspecting = false;
+    private static final float ANIMATION_SPEED = 0.01f;
+
 
     public static boolean isInspecting() {
-        return inspectBinding.isPressed();
+        if (isInspecting) {
+            inspectProgress = Math.min(inspectProgress + ANIMATION_SPEED, 1.0f);
+            if (inspectProgress >= 1.0f) {
+                stopInspect(); //animation complete
+            }
+        }
+
+        return inspectProgress > 0f;
+    }
+
+    public static float getInspectProgress() {
+        return inspectProgress;
+    }
+
+    private static void startInspect() {
+        isInspecting = true;
+        inspectProgress = 0f;
+        McInspects.LOGGER.info("Starting inspect animation");
+    }
+
+    private static void stopInspect() {
+        isInspecting = false;
+        inspectProgress = 0f;
+        McInspects.LOGGER.info("Stopping inspect animation");
     }
 
     @Override
@@ -28,8 +55,11 @@ public class McInspectsClient implements ClientModInitializer {
 
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (inspectBinding.wasPressed()) {
+
+            //If we pressed the inspect button and are not currently inspecting, start the inspect animation
+            if (inspectBinding.wasPressed() && !isInspecting) {
                 McInspects.LOGGER.info("User pressed the inspect button");
+                startInspect();
             }
 
         });
