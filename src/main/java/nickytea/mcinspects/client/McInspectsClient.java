@@ -19,33 +19,51 @@ public class McInspectsClient implements ClientModInitializer {
 
     private static float inspectProgress = 0.0f;
     private static boolean isInspecting = false;
-    private static final float ANIMATION_SPEED = 0.01f;
+    private static final float ANIMATION_SPEED = 0.025f;
 
+    // The inspect animation will be in three parts:
+    // Part 0: bringing from rest to in front of camera
+    // Part 1: flip over
+    // Part 2: return
+
+    private static int animationStage = 0;
 
     public static boolean isInspecting() {
         if (isInspecting) {
             inspectProgress = Math.min(inspectProgress + ANIMATION_SPEED, 1.0f);
             if (inspectProgress >= 1.0f) {
-                stopInspect(); //animation complete
+                 //stage complete
+                inspectProgress = 0f;
+                animationStage++;
+                if (animationStage > 2) {
+                    //full animation complete
+                    stopInspect();
+                }
             }
         }
 
-        return inspectProgress > 0f;
+        return (inspectProgress > 0f) || (animationStage > 0);
     }
 
     public static float getInspectProgress() {
         return inspectProgress;
     }
 
+    public static int getAnimationStage() {
+        return animationStage;
+    }
+
     private static void startInspect() {
         isInspecting = true;
         inspectProgress = 0f;
+        animationStage = 0;
         McInspects.LOGGER.info("Starting inspect animation");
     }
 
     private static void stopInspect() {
         isInspecting = false;
         inspectProgress = 0f;
+        animationStage = 0;
         McInspects.LOGGER.info("Stopping inspect animation");
     }
 
