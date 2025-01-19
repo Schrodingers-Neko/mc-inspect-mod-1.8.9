@@ -21,10 +21,12 @@ public class McInspectsClient implements ClientModInitializer {
     private static boolean isInspecting = false;
     private static final float ANIMATION_SPEED = 0.025f;
 
-    // The inspect animation will be in three parts:
+    // The inspect animation will be in five parts:
     // Part 0: bringing from rest to in front of camera
-    // Part 1: flip over
-    // Part 2: return
+    // Part 1: pause
+    // Part 2: flip over
+    // Part 3: pause
+    // Part 4: return
 
     private static int animationStage = 0;
 
@@ -35,7 +37,7 @@ public class McInspectsClient implements ClientModInitializer {
                  //stage complete
                 inspectProgress = 0f;
                 animationStage++;
-                if (animationStage > 2) {
+                if (animationStage > 4) {
                     //full animation complete
                     stopInspect();
                 }

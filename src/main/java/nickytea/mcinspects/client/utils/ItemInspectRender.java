@@ -28,21 +28,33 @@ public class ItemInspectRender {
                 matrices.translate(interpX, interpY, interpZ);
 
                 //interp rotation
+                xRot = lerp(progress, 0f, 112f);
                 yRot = lerp(progress, 0f, -18f);
                 zRot = lerp(progress, 0f, 82f);
-                xRot = lerp(progress, 0f, 112f);
 
                 break;
-
             case 1:
+                matrices.translate(-0.15f, 0.16f, 0.15f); //final position from previous stage
+                xRot = 112f;
+                yRot = -18f;
+                zRot = 82f;
+                break;
+
+            case 2:
                 matrices.translate(-0.15f, 0.16f, 0.15f); //final position from previous stage
 
                 // interp rotation
+                xRot = lerp(progress, 112f, 0f);
                 yRot = lerp(progress, -18f, 270f);
                 zRot = lerp(progress, 82f, 0f);
-                xRot = lerp(progress, 112f, 0f);
                 break;
-            case 2:
+            case 3:
+                matrices.translate(-0.15f, 0.16f, 0.15f); //final position from previous stage
+                xRot = 0f;
+                yRot = 270f;
+                zRot = 0f;
+                break;
+            case 4:
 
                 //interp position
                 interpX = lerp(progress, -0.15f, 0f);
