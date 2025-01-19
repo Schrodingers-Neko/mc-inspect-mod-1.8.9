@@ -3,12 +3,12 @@
 	"id": "mcinspects",
 	"version": "${version}",
 	"name": "mcinspects",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Adds a button to inspect your currently held item.",
 	"authors": [
-		"Me!"
+		"NickyTea"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
+		"homepage": "https://www.nicktriance.com/",
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
