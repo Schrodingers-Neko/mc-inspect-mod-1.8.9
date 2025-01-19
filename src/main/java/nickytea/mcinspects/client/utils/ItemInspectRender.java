@@ -17,6 +17,8 @@ public class ItemInspectRender {
         float yRot = 0f;
         float zRot = 0f;
 
+        // The way this mod works is we have a handful of predetermined poses for the held item, and depending on
+        // the animation stage we lerp between them.
         switch (McInspectsClient.getAnimationStage()) {
             case 0:
                 //stage 0: blocking animation
@@ -34,6 +36,7 @@ public class ItemInspectRender {
 
                 break;
             case 1:
+                // stage 1: pause
                 matrices.translate(-0.15f, 0.16f, 0.15f); //final position from previous stage
                 xRot = 112f;
                 yRot = -18f;
@@ -41,6 +44,7 @@ public class ItemInspectRender {
                 break;
 
             case 2:
+                // stage 2: flip
                 matrices.translate(-0.15f, 0.16f, 0.15f); //final position from previous stage
 
                 // interp rotation
@@ -49,12 +53,14 @@ public class ItemInspectRender {
                 zRot = lerp(progress, 82f, 0f);
                 break;
             case 3:
+                //stage 3: pause
                 matrices.translate(-0.15f, 0.16f, 0.15f); //final position from previous stage
                 xRot = 0f;
                 yRot = 270f;
                 zRot = 0f;
                 break;
             case 4:
+                //stage 4: return to base
 
                 //interp position
                 interpX = lerp(progress, -0.15f, 0f);
@@ -70,6 +76,7 @@ public class ItemInspectRender {
                 break;
         }
 
+        //apply any rotations
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yRot));
         matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(zRot));
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(xRot));

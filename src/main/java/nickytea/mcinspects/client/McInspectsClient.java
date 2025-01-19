@@ -19,6 +19,7 @@ public class McInspectsClient implements ClientModInitializer {
     private static float inspectProgress = 0.0f;
     private static boolean isInspecting = false;
 
+    //The various animation speed variables control the playback speed of the animation
     private static final float BASE_ANIMATION_SPEED = 0.025f;
     private static final float S0_ANIMATION_SPEED = 0.06f;
     private static final float PAUSE_ANIMATION_SPEED = 0.025f; //used for both Stage 1 & Stage 3
