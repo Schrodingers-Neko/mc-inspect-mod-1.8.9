@@ -3,7 +3,6 @@ package nickytea.mcinspects.client;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import nickytea.mcinspects.McInspects;
 import net.minecraft.client.option.KeyBinding;
@@ -48,15 +47,12 @@ public class McInspectsClient implements ClientModInitializer {
 
         if (isInspecting) {
 
-            McInspects.LOGGER.info(String.valueOf(currentStageElapsedTime));
             updateAnimationTime();
-            //currentStageElapsedTime = Math.min(currentStageElapsedTime +, 1.0f);
             currentStageElapsedTime+=deltaTime;
 
             if (currentStageElapsedTime >= currentStageTime) {
                  //stage complete
                 currentStageElapsedTime = 0f;
-                McInspects.LOGGER.info("Stage complete");
                 animationStage++;
                 if (animationStage >= ANIMATION_STAGE_COUNT) {
                     //full animation complete
@@ -104,14 +100,14 @@ public class McInspectsClient implements ClientModInitializer {
         currentStageElapsedTime = 0f;
         animationStage = 0;
         currentStageTime = BASE_ANIMATION_TIME;
-        McInspects.LOGGER.info("Starting inspect animation");
+        McInspects.LOGGER.info("Starting inspect animation...");
     }
 
     private static void stopInspect() {
         isInspecting = false;
         currentStageElapsedTime = 0f;
         animationStage = 0;
-        McInspects.LOGGER.info("Stopping inspect animation");
+        McInspects.LOGGER.info("Inspect animation complete");
     }
 
     @Override
@@ -123,7 +119,6 @@ public class McInspectsClient implements ClientModInitializer {
 
             //If we pressed the inspect button and are not currently inspecting, start the inspect animation
             if (inspectBinding.wasPressed() && !isInspecting) {
-                McInspects.LOGGER.info("User pressed the inspect button");
                 startInspect();
             }
 
