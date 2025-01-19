@@ -3,6 +3,7 @@ package nickytea.mcinspects.client;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import nickytea.mcinspects.McInspects;
 import net.minecraft.client.option.KeyBinding;
@@ -16,17 +17,17 @@ public class McInspectsClient implements ClientModInitializer {
                     InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R,
                     "keys.category.mcinspects"));
 
-    private static float inspectProgress = 0.0f;
+    private static double currentStageElapsedTime = 0.0f;
+    private static float currentStageTime = 0f;
     private static boolean isInspecting = false;
 
     //The various animation speed variables control the playback speed of the animation
-    private static final float BASE_ANIMATION_SPEED = 0.025f;
-    private static final float S0_ANIMATION_SPEED = 0.06f;
-    private static final float PAUSE_ANIMATION_SPEED = 0.025f; //used for both Stage 1 & Stage 3
-    private static final float S2_ANIMATION_SPEED = 0.035f;
-    private static final float S4_ANIMATION_SPEED = 0.05f;
+    private static final float BASE_ANIMATION_TIME = 0.025f;
+    private static final float S0_ANIMATION_TIME = 0.35f;
+    private static final float PAUSE_ANIMATION_TIME = 0.6f; //used for both Stage 1 & Stage 3
+    private static final float S2_ANIMATION_TIME = 0.4f;
+    private static final float S4_ANIMATION_TIME = 0.45f;
 
-    private static float animationSpeed = BASE_ANIMATION_SPEED;
 
     // The inspect animation will be in five parts:
     // Part 0: bringing from rest to in front of camera
@@ -34,48 +35,64 @@ public class McInspectsClient implements ClientModInitializer {
     // Part 2: flip over
     // Part 3: pause
     // Part 4: return
-
+    private static final int ANIMATION_STAGE_COUNT = 5;
     private static int animationStage = 0;
 
+    private static long lastTime = 0;
+
     public static boolean isInspecting() {
+
+        long currentTime = System.nanoTime();
+        double deltaTime = (double) (currentTime - lastTime) / 1_000_000_000.0;
+        lastTime = currentTime;
+
         if (isInspecting) {
-            updateAnimationSpeed();
-            inspectProgress = Math.min(inspectProgress + animationSpeed, 1.0f);
-            if (inspectProgress >= 1.0f) {
+
+            McInspects.LOGGER.info(String.valueOf(currentStageElapsedTime));
+            updateAnimationTime();
+            //currentStageElapsedTime = Math.min(currentStageElapsedTime +, 1.0f);
+            currentStageElapsedTime+=deltaTime;
+
+            if (currentStageElapsedTime >= currentStageTime) {
                  //stage complete
-                inspectProgress = 0f;
+                currentStageElapsedTime = 0f;
+                McInspects.LOGGER.info("Stage complete");
                 animationStage++;
-                if (animationStage > 4) {
+                if (animationStage >= ANIMATION_STAGE_COUNT) {
                     //full animation complete
                     stopInspect();
                 }
             }
         }
 
-        return (inspectProgress > 0f) || (animationStage > 0);
+        return isInspecting;
     }
 
-    private static void updateAnimationSpeed() {
+    private static void updateAnimationTime() {
         switch (animationStage) {
             case 0:
-                animationSpeed = S0_ANIMATION_SPEED;
+                currentStageTime = S0_ANIMATION_TIME;
                 break;
             case 1:
             case 3:
-                animationSpeed = PAUSE_ANIMATION_SPEED;
+                currentStageTime = PAUSE_ANIMATION_TIME;
                 break;
             case 2:
-                animationSpeed = S2_ANIMATION_SPEED;
+                currentStageTime = S2_ANIMATION_TIME;
                 break;
             case 4:
-                animationSpeed = S4_ANIMATION_SPEED;
+                currentStageTime = S4_ANIMATION_TIME;
                 break;
             default:
-                animationSpeed = BASE_ANIMATION_SPEED;
+                currentStageTime = BASE_ANIMATION_TIME;
         }
     }
-    public static float getInspectProgress() {
-        return inspectProgress;
+    public static double getCurrentStageElapsedTime() {
+        return currentStageElapsedTime;
+    }
+
+    public static float getCurrentStageTime() {
+        return currentStageTime;
     }
 
     public static int getAnimationStage() {
@@ -84,15 +101,15 @@ public class McInspectsClient implements ClientModInitializer {
 
     private static void startInspect() {
         isInspecting = true;
-        inspectProgress = 0f;
+        currentStageElapsedTime = 0f;
         animationStage = 0;
-        animationSpeed = BASE_ANIMATION_SPEED;
+        currentStageTime = BASE_ANIMATION_TIME;
         McInspects.LOGGER.info("Starting inspect animation");
     }
 
     private static void stopInspect() {
         isInspecting = false;
-        inspectProgress = 0f;
+        currentStageElapsedTime = 0f;
         animationStage = 0;
         McInspects.LOGGER.info("Stopping inspect animation");
     }

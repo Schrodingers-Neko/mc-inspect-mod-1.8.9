@@ -7,7 +7,9 @@ public class ItemInspectRender {
 
     public static void inspectHeldItem(MatrixStack matrices) {
 
-        float progress = McInspectsClient.getInspectProgress();
+        float stageTime = McInspectsClient.getCurrentStageTime();
+        double elapsedTime = McInspectsClient.getCurrentStageElapsedTime();
+        float progress = (float) (elapsedTime / stageTime);
 
         float interpX = 0f;
         float interpY = 0f;
