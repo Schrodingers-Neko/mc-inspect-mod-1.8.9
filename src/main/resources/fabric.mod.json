@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "mcinspects",
 	"version": "${version}",
-	"name": "mcinspects",
+	"name": "MCInspects",
 	"description": "Adds a button to inspect your currently held item.",
 	"authors": [
 		"NickyTea"
@@ -13,7 +13,7 @@
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/mcinspects/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
 		"main": [
 			"nickytea.mcinspects.McInspects"
