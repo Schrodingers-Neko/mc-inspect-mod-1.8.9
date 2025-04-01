@@ -6,7 +6,7 @@ import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemDisplayContext;
+import net.minecraft.item.ModelTransformationMode;
 import nickytea.mcinspects.client.McInspectsClient;
 import nickytea.mcinspects.client.utils.ItemInspectRender;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,7 +22,9 @@ public abstract class MixinHeldItemRenderer {
     private MinecraftClient client;
 
     @Inject(method = "renderItem", at = @At("HEAD"), cancellable = true)
-    public void renderItem(LivingEntity entity, ItemStack stack, ItemDisplayContext renderMode, MatrixStack matrices, VertexConsumerProvider vertexConsumer, int light, CallbackInfo ci)  {
+    public void renderItemReplacement(LivingEntity entity, ItemStack stack, ModelTransformationMode renderMode,
+                                      boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+                                      int light, CallbackInfo ci) {
 
         if (McInspectsClient.isInspecting()) {
             ItemInspectRender.inspectHeldItem(matrices);
