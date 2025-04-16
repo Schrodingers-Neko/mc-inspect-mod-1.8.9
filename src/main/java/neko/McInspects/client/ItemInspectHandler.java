@@ -16,7 +16,7 @@ public class ItemInspectHandler {
             "Inspect", Keyboard.KEY_F, "McInspects"
     );
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = ItemInspectConfig.DEBUG;
 
     private static float currentStageElapsedTime = 0.0f;
     private static float currentStageTime = 0f;
@@ -133,7 +133,7 @@ public class ItemInspectHandler {
         }
     }
 
-    static void addChat(String message) {
+    public static void addChat(String message) {
         if (!DEBUG) {
             return;
         }

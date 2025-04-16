@@ -1,3 +1,2 @@
-<h1> Adds a button that allows the player to inspect the item in their hand. </h1>
-
-https://www.nicktriance.com/blog/mcinspects
+# Port of McInspects to Forge 1.8.9 with Additional Features
+### original: https://www.nicktriance.com/blog/mcinspects
