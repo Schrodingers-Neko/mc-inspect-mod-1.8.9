@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.7",
+  "package": "neko.McInspects.mixin",
+  "refmap": "mixins.mc-inspects.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MixinItemRenderer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+  ]
+}

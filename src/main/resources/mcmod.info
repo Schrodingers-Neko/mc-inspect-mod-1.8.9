@@ -1,0 +1,16 @@
+[
+{
+  "modid": "mc-inspects",
+  "name": "McInspects",
+  "description": "CS-style item inspect, forge 1.8.9 port",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["NickTriance","Schrodingers-Neko"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
